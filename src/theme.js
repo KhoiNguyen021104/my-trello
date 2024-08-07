@@ -1,9 +1,9 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
-import { brown, deepOrange, orange, teal } from '@mui/material/colors'
+import { cyan, deepOrange, orange, teal } from '@mui/material/colors'
 
 
-const appBarHeight = '48px'
-const boardBarHeight = '58px'
+const appBarHeight = '58px'
+const boardBarHeight = '60px'
 
 const theme = extendTheme({
   app: {
@@ -20,8 +20,43 @@ const theme = extendTheme({
     },
     dark: {
       palette: {
-        primary: brown,
+        primary: cyan,
         secondary: orange
+      }
+    }
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '0.875rem',
+          textTransform: 'none'
+        }
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary.main,
+          fontSize: '0.875rem',
+          '.MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.primary.light,
+            borderWidth: 1
+          },
+          '&:hover': {
+            '.MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.main
+            }
+          }
+        })
+      }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.primary.main,
+          fontSize: '0.875rem'
+        })
       }
     }
   }
