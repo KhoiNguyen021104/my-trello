@@ -7,8 +7,7 @@ function BoardBar() {
         backgroundColor: 'primary.dark',
         width: '100%',
         height: (theme) => theme.app.boardBarHeight,
-        display: 'flex',
-        alignItems: 'center'
+        display: 'flex'
       }}>
       Board bar
     </Box>
