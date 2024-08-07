@@ -1,7 +1,16 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
-import { cyan, deepOrange, orange, teal } from '@mui/material/colors'
+import { brown, deepOrange, orange, teal } from '@mui/material/colors'
+
+
+const appBarHeight = '48px'
+const boardBarHeight = '58px'
 
 const theme = extendTheme({
+  app: {
+    appBarHeight: appBarHeight,
+    boardBarHeight: boardBarHeight,
+    contentHeight: `calc(100vh - ${appBarHeight} - ${boardBarHeight})`
+  },
   colorSchemes: {
     light: {
       palette: {
@@ -11,7 +20,7 @@ const theme = extendTheme({
     },
     dark: {
       palette: {
-        primary: cyan,
+        primary: brown,
         secondary: orange
       }
     }
