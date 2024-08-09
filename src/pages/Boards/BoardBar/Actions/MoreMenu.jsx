@@ -62,7 +62,7 @@ function MoreMenu() {
   return (
     <div>
       <IconButton onClick={toggleDrawer('right', true)}>
-        <MoreHorizIcon sx={{ color: 'primary.main' }} />
+        <MoreHorizIcon sx={{ color: 'white' }} />
       </IconButton>
       <Drawer
         sx={{

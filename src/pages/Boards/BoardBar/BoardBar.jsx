@@ -40,17 +40,21 @@ function BoardBar() {
         height: (theme) => theme.app.BOARD_BAR_HEIGHT,
         display: 'flex',
         justifyContent: 'space-between',
+        alignItems: 'center',
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        borderTop: '1px solid #00bfa5',
-        padding: '8px'
+        borderTop: '1px solid rgba(255,255,255,0.2)',
+        bgcolor: 'primary.800',
+        '&::-webkit-scrollbar-track': {
+          m: 2
+        }
       }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
         <Button
           variant='text'
           size='small'
-          sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+          sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'white' }}>
           MyTrello
         </Button>
         <ActiveStar />
@@ -62,9 +66,15 @@ function BoardBar() {
               <SvgIcon
                 component={BoardIcon}
                 inheritViewBox
-                sx={{ width: '20px', height: '20px' }}
+                sx={{ width: '16px', height: '16px', color:'#172B4D' }}
               />
-            }>
+            }
+            sx={{
+              bgcolor:'white',
+              color:'#172B4D',
+              alignItems:'baseline',
+              '&:hover': { bgcolor:'#bdc3c7' }
+            }}>
             Board
           </Button>
         </Tooltip>
@@ -75,10 +85,10 @@ function BoardBar() {
         <SvgIcon
           component={RocketIcon}
           inheritViewBox
-          sx={{ color: 'primary.main', width: '20px', height: '20px', cursor: 'pointer' }}
+          sx={{ color: 'white', width: '20px', height: '20px', cursor: 'pointer' }}
         />
         <FlashOnIcon
-          sx={{ color: 'primary.main', width: '16px', height: '16px', cursor: 'pointer' }}
+          sx={{ color: 'white', width: '16px', height: '16px', cursor: 'pointer' }}
         />
         <Filter />
         <Box sx={{ display:'flex', alignItems:'center', gap:2 }}>

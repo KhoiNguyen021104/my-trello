@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import {
   Box,
+  Button,
   Divider,
-  IconButton,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -27,10 +27,28 @@ function CustomizeView() {
   }
   return (
     <Box>
-      <IconButton
-        onClick={handleClick}>
-        <ExpandMoreIcon fontSize='large' sx={ !open?{ color:'primary.main' }:{ backgroundColor: 'primary.main', color:'#fff' }}/>
-      </IconButton>
+      <Button
+        onClick={handleClick}
+        sx={{
+          height: 36.5,
+          width: 32,
+          borderRadius: '4px',
+          '.MuiSvgIcon-root': { borderRadius: '4px' }
+        }}
+        startIcon={
+          <ExpandMoreIcon
+            sx={
+              !open
+                ? { color: 'white', height: 32, width: 32 }
+                : {
+                  backgroundColor: 'white',
+                  color: '#2d3436',
+                  height: 32,
+                  width: 32
+                }
+            }
+          />
+        }></Button>
       <Menu
         id='basic-menu-workspaces'
         anchorEl={anchorEl}

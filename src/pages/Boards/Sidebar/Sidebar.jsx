@@ -6,9 +6,10 @@ function Sidebar() {
       sx={{
         backgroundColor: 'red',
         width: 260,
-        height: '100vh'
+        minWidth: 260,
+        overflowX: 'hidden',
+        height: (theme) => `calc(100vh - ${theme.app.APP_BAR_HEIGHT})`
       }}>
-      Sidebar
     </Box>
   )
 }

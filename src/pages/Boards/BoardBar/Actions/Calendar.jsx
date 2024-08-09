@@ -8,7 +8,7 @@ function Calendar() {
     <Box>
       <IconButton>
         <CalendarMonthIcon
-          sx={{ color: 'primary.main', width: '16px', height: '16px' }}
+          sx={{ color: 'white', width: '16px', height: '16px' }}
         />
       </IconButton>
     </Box>
