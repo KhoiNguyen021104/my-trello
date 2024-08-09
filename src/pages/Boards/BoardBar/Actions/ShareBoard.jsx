@@ -25,7 +25,15 @@ function ShareBoard() {
   return (
     <div>
       <Tooltip title='Share board' arrow>
-        <Button onClick={handleOpen} variant='contained' startIcon={<PersonAddAltIcon />}>
+        <Button
+          onClick={handleOpen}
+          variant='contained'
+          startIcon={<PersonAddAltIcon />}
+          sx={{
+            bgcolor:'white',
+            color:'#172B4D',
+            '&:hover': { bgcolor:'#bdc3c7' }
+          }}>
           Share
         </Button>
       </Tooltip>

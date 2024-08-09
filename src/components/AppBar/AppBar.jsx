@@ -1,7 +1,6 @@
 // App bar
-
 import Box from '@mui/material/Box'
-import ModeSelect from '../ModeSelect'
+import ModeSelect from '../ModeSelect/ModeSelect'
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined'
 import { ReactComponent as TrelloIcon } from '~/assets/trello.svg'
 import SvgIcon from '@mui/material/SvgIcon'
@@ -12,7 +11,6 @@ import Starred from './Menus/Starred'
 import Templates from './Menus/Templates'
 import Create from './Menus/Create'
 import Profile from './Menus/Profile'
-// import Notification from './Menus/Notification'
 import TextField from '@mui/material/TextField'
 import Badge from '@mui/material/Badge'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
@@ -22,7 +20,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
 import CloseIcon from '@mui/icons-material/Close'
 import { useEffect, useRef, useState } from 'react'
-
 
 function AppBar() {
   const searchRef = useRef()
@@ -54,7 +51,6 @@ function AppBar() {
     }
   }, [])
 
-
   return (
     <Box
       sx={{
@@ -66,7 +62,8 @@ function AppBar() {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
-        overflowY: 'hidden'
+        overflowY: 'hidden',
+        bgcolor: (them) => (them.palette.mode === 'dark'?'#1D2125':'hsl(155, 62%, 20.6%)')
       }}>
       <Box>
         <Box
@@ -75,7 +72,7 @@ function AppBar() {
             alignItems: 'center',
             gap: 2
           }}>
-          <AppsOutlinedIcon sx={{ color: 'primary.main' }} />
+          <AppsOutlinedIcon sx={{ color: 'white' }} />
           <Box
             sx={{
               display: 'flex',
@@ -85,14 +82,18 @@ function AppBar() {
             <SvgIcon
               component={TrelloIcon}
               inheritViewBox
-              sx={{ color: 'primary.main', width: '20px', height: '20px' }}
+              sx={{
+                color: 'white',
+                width: '20px',
+                height: '20px'
+              }}
             />
             <Typography
               variant='span'
               sx={{
                 fontSize: '1.2rem',
                 fontWeight: 'bold',
-                color: 'primary.main'
+                color: 'white'
               }}>
               Trello
             </Typography>
@@ -114,22 +115,35 @@ function AppBar() {
           onChange={(e) => setSearchInput(e.target.value)}
           autoComplete='off'
           fullWidth
-          id='outlined-search'
-          label='Search...'
-          type='text'
+          placeholder='Search...'
+          type='  '
           size='small'
-          sx={{ color: 'primary.main', minWidth: 120, maxWidth: 605, width: clicked?'605px':'100%' }}
+          sx={{
+            minWidth: 120,
+            maxWidth: 605,
+            width: clicked ? '605px' : '100%',
+            borderColor:'#8590A2',
+            borderRadius: '4px',
+            bgcolor: 'rgba(255, 255, 255, 0.2)',
+            '& input': { color:'white' },
+            '& input::placeholder': { color: 'white !important', opacity:1 },
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderColor: 'white' },
+              '&:hover fieldset': { borderColor: 'white' },
+              '&.Mui-focused fieldset': { borderColor: 'white' }
+            }
+          }}
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
-                <SearchIcon sx={{ color: 'primary.main' }} />
+                <SearchIcon sx={{ color: 'white' }} />
               </InputAdornment>
             ),
             endAdornment: searchInput !== '' && (
               <InputAdornment position='end'>
                 <CloseIcon
                   data-clear-icon
-                  sx={{ color: 'primary.main', cursor: 'pointer' }}
+                  sx={{ color: 'white', cursor: 'pointer' }}
                   fontSize='small'
                   onClick={handleClearInput}
                 />
@@ -140,13 +154,15 @@ function AppBar() {
         <ModeSelect sx={{ cursor: 'pointer' }} />
         <Tooltip arrow title='Notification'>
           <Badge color='secondary' variant='dot' sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneOutlinedIcon sx={{ color: 'primary.main' }} />
+            <NotificationsNoneOutlinedIcon
+              sx={{ color: 'white' }}
+            />
           </Badge>
         </Tooltip>
         {/* <Notification/> */}
         <Tooltip arrow title='Help'>
           <HelpOutlineOutlinedIcon
-            sx={{ cursor: 'pointer', color: 'primary.main' }}
+            sx={{ cursor: 'pointer', color: 'white' }}
           />
         </Tooltip>
         <Profile />
