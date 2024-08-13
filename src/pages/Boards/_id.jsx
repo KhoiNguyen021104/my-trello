@@ -5,16 +5,17 @@ import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 import { Box } from '@mui/material'
 import Sidebar from './Sidebar/Sidebar'
+import { mockData } from '~/apis/mock-data'
 
 function Board() {
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh', maxHeight: '100vh', overflowY:'hidden !important' }}>
       <AppBar />
       <Box sx={{ display:'flex', height: (theme) => `calc(100vh - ${theme.app.APP_BAR_HEIGHT})`, overflow:'hidden' }}>
-        <Sidebar />
+        {/* <Sidebar /> */}
         <Box sx={{ flex: 1, overflowX:'auto', overflowY:'hidden' }}>
-          <BoardBar />
-          <BoardContent />
+          <BoardBar board={ mockData?.board } />
+          <BoardContent board={ mockData?.board }/>
         </Box>
       </Box>
     </Container>

@@ -24,7 +24,7 @@ import Logout from '@mui/icons-material/Logout'
 import ShareBoard from './Actions/ShareBoard'
 import MoreMenu from './Actions/MoreMenu'
 
-function BoardBar() {
+function BoardBar({ board }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -54,11 +54,11 @@ function BoardBar() {
         <Button
           variant='text'
           size='small'
-          sx={{ fontSize: '1.2rem', fontWeight: 'bold', color:'white' }}>
-          MyTrello
+          sx={{ fontSize: '1.125rem', fontWeight: 'bold', color:'white' }}>
+          {board?.title}
         </Button>
         <ActiveStar />
-        <ChangeVisibility />
+        <ChangeVisibility visibility={ board?.type } />
         <Tooltip title='Board' arrow>
           <Button
             variant='contained'

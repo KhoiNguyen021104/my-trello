@@ -8,7 +8,7 @@ function ActiveStar() {
     <Box>
       <Tooltip title='Star' arrow>
         <IconButton aria-label='Star'>
-          <StarBorderOutlinedIcon sx={{ color:'white' }}/>
+          <StarBorderOutlinedIcon fontSize='small' sx={{ color:'white' }}/>
         </IconButton>
       </Tooltip>
     </Box>
