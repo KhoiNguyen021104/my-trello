@@ -213,7 +213,7 @@ function Column({ column }) {
               <AddIcon
                 sx={{
                   color: (theme) =>
-                    theme.palette.mode === 'light' ? '#44546f' : '#fff'
+                    theme.palette.mode === 'light' ? '#0984e3' : '#fff'
                 }}
               />
             }
@@ -221,7 +221,7 @@ function Column({ column }) {
               flex: 1,
               justifyContent: 'left',
               color: (theme) =>
-                theme.palette.mode === 'light' ? '#44546f' : '#fff'
+                theme.palette.mode === 'light' ? '#0984e3' : '#fff'
             }}>
             Add a card
           </Button>
@@ -231,7 +231,7 @@ function Column({ column }) {
               inheritViewBox
               sx={{
                 color: (theme) =>
-                  theme.palette.mode === 'light' ? '#44546f' : '#fff',
+                  theme.palette.mode === 'light' ? '#0984e3' : '#fff',
                 width: '20px',
                 height: '20px'
               }}

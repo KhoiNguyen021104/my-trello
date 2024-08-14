@@ -12,7 +12,3 @@ export const mapOrder = (originalArray, itemOrderIds, key) => {
 //   );
 //   return newArray;
 // }
-
-export const swapElementTwoArray = (activeCol, activeCard, overCol, overCard) => {
-  
-}
