@@ -41,13 +41,14 @@ function TrelloCard({ card, noMediaCard }) {
         mt: '4px',
         width: (theme) => theme?.app?.WIDTH_CARD,
         maxWidth: (theme) => theme?.app?.WIDTH_CARD,
-        minWidth: (theme) => theme?.app?.WIDTH_CARD
+        minWidth: (theme) => theme?.app?.WIDTH_CARD,
         // '&:hover': {
         //   outline: (theme) =>
         //     theme.palette.mode === 'light'
         //       ? '#388bff auto 2px'
         //       : '#fff auto 0.5px'
         // }
+        display: card?.FE_PlaceholderCard?'none':'block'
       }}>
       {!noMediaCard && (
         <CardMedia
@@ -65,7 +66,7 @@ function TrelloCard({ card, noMediaCard }) {
         {card?.description && <Typography>{card?.description}</Typography>}
       </CardContent>
       {
-        (!!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length) &&
+        (!!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length) &&
         <CardActions sx={{ p: '0 4px 8px 4px' }}>
           {!!card?.memberIds?.length && (
             <Button
