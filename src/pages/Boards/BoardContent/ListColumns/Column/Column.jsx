@@ -25,6 +25,7 @@ import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+
 function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -79,24 +80,34 @@ function Column({ column }) {
 
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
   // Drag n Drop
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({
-      id: column._id,
-      data: { ...column }
-    })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({
+    id: column._id,
+    data: { ...column }
+  })
   const dndKitColumnStyles = {
     transform: CSS.Translate.toString(transform),
     transition,
     height: '100%',
-    opacity: isDragging?0.5:1
+    opacity: isDragging ? 0.5 : 1
     // dùng với pointerSensor => ngăn chặn sự kiện click
     // touchAction: 'none'
   }
+
+  // Add new card
+  const [openNewCardForm, setOpenNewCardForm] = useState(false)
+
+  const toggleNewCardForm = () => {
+    setOpenNewCardForm(!openNewCardForm)
+  }
   return (
-    <div
-      ref={setNodeRef}
-      style={dndKitColumnStyles}
-      {...attributes}>
+    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
         {...listeners}
         sx={{
@@ -138,6 +149,7 @@ function Column({ column }) {
                 onKeyDown={handleKeyDown}
                 size='small'
                 variant='outlined'
+                data-no-dnd='true'
               />
             ) : (
               <Typography variant='h6'>{columnData.title}</Typography>
@@ -149,7 +161,7 @@ function Column({ column }) {
               aria-controls={open ? 'basic-menu-column-dropdown' : undefined}
               aria-haspopup='true'
               aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick} >
+              onClick={handleClick}>
               <MoreHorizIcon fontSize='small' />
             </IconButton>
             <Menu
@@ -198,46 +210,57 @@ function Column({ column }) {
           </Box>
         </Box>
         {/* List cards */}
-        <ListCards cards={orderedCards}/>
+        <ListCards
+          cards={orderedCards}
+          openNewCardForm={openNewCardForm}
+          setOpenNewCardForm={setOpenNewCardForm}
+        />
         {/* Footer */}
-        <Box
-          sx={{
-            height: (theme) => theme.app.COLUMN_FOOTER_HEIGHT,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            p: 2
-          }}>
-          <Button
-            startIcon={
-              <AddIcon
+        { !openNewCardForm &&
+          <Box
+            sx={{
+              height: 'fit-content',
+              minHeight: (theme) => theme.app.COLUMN_FOOTER_HEIGHT,
+              px: 2,
+              pb: 2,
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              pt: !column?.cards[0]?.FE_PlaceholderCard ? '12px' : 0
+            }}>
+            <Button
+              onClick={toggleNewCardForm}
+              startIcon={
+                <AddIcon
+                  sx={{
+                    color: (theme) =>
+                      theme.palette.mode === 'light' ? '#0984e3' : '#fff'
+                  }}
+                />
+              }
+              sx={{
+                flex: 1,
+                justifyContent: 'left',
+                color: (theme) =>
+                  theme.palette.mode === 'light' ? '#0984e3' : '#fff'
+              }}>
+              Add a card
+            </Button>
+            <IconButton>
+              <SvgIcon
+                component={CreateTemplateCardIcon}
+                inheritViewBox
                 sx={{
                   color: (theme) =>
-                    theme.palette.mode === 'light' ? '#0984e3' : '#fff'
+                    theme.palette.mode === 'light' ? '#0984e3' : '#fff',
+                  width: '20px',
+                  height: '20px'
                 }}
               />
-            }
-            sx={{
-              flex: 1,
-              justifyContent: 'left',
-              color: (theme) =>
-                theme.palette.mode === 'light' ? '#0984e3' : '#fff'
-            }}>
-            Add a card
-          </Button>
-          <IconButton>
-            <SvgIcon
-              component={CreateTemplateCardIcon}
-              inheritViewBox
-              sx={{
-                color: (theme) =>
-                  theme.palette.mode === 'light' ? '#0984e3' : '#fff',
-                width: '20px',
-                height: '20px'
-              }}
-            />
-          </IconButton>
-        </Box>
+            </IconButton>
+          </Box>
+        }
       </Box>
     </div>
   )
