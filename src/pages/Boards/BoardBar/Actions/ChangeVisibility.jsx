@@ -1,5 +1,7 @@
 import Tooltip from '@mui/material/Tooltip'
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -37,7 +39,7 @@ function ChangeVisibility({ visibility }) {
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
-          startIcon={<PeopleOutlinedIcon />}>
+          startIcon={visibility==='public'?<PublicOutlinedIcon/>:<LockOutlinedIcon />}>
           {capitalizeFirstLetter(visibility)}
         </Button>
         <Menu

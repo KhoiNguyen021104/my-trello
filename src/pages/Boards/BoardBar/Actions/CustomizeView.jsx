@@ -39,12 +39,13 @@ function CustomizeView() {
           <ExpandMoreIcon
             sx={
               !open
-                ? { color: 'white', height: 32, width: 32 }
+                ? { color: 'white', height: 32, width: 32, ml: 2 }
                 : {
                   backgroundColor: 'white',
                   color: '#2d3436',
                   height: 32,
-                  width: 32
+                  width: 64,
+                  ml: 2
                 }
             }
           />
