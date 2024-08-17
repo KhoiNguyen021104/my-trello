@@ -44,6 +44,7 @@ function BoardBar({ board }) {
         gap: 2,
         paddingX: 2,
         overflowX: 'auto',
+        overflowY: 'hidden',
         borderTop: '1px solid rgba(255,255,255,0.2)',
         bgcolor: 'primary.800',
         '&::-webkit-scrollbar-track': {

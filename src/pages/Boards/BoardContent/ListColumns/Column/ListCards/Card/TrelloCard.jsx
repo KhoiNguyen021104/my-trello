@@ -42,12 +42,12 @@ function TrelloCard({ card, noMediaCard }) {
         width: (theme) => theme?.app?.WIDTH_CARD,
         maxWidth: (theme) => theme?.app?.WIDTH_CARD,
         minWidth: (theme) => theme?.app?.WIDTH_CARD,
-        // '&:hover': {
-        //   outline: (theme) =>
-        //     theme.palette.mode === 'light'
-        //       ? '#388bff auto 2px'
-        //       : '#fff auto 0.5px'
-        // }
+        '&:hover': {
+          outline: (theme) =>
+            theme.palette.mode === 'light'
+              ? '#388bff auto 2px'
+              : '#fff auto 0.5px'
+        },
         display: card?.FE_PlaceholderCard?'none':'block'
       }}>
       {!noMediaCard && (

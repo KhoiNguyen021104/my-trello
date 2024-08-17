@@ -28,6 +28,8 @@ function Board() {
         <Box sx={{ flex: 1, overflowX:'auto', overflowY:'hidden' }}>
           <BoardBar board={ board } />
           <BoardContent board={ board }/>
+          {/* <BoardBar board={ mockData.board } />
+          <BoardContent board={ mockData.board }/> */}
         </Box>
       </Box>
     </Container>
