@@ -17,12 +17,13 @@ import {
   // closestCenter
 } from '@dnd-kit/core'
 import { MouseSensor, TouchSensor } from '~/customLibs/DndKitSensors'
-import { createContext, useCallback, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './ListColumns/Column/Column'
 import TrelloCard from './ListColumns/Column/ListCards/Card/TrelloCard'
-import { cloneDeep, isEmpty } from 'lodash'
+import { cloneDeep, isEmpty, transform } from 'lodash'
 import { createPlaceholderCard } from '~/utils/formatters'
+import { BoardIdContext } from '../_id'
 
 export const CardContext = createContext()
 
@@ -44,8 +45,8 @@ function BoardContent({ board }) {
   const [activeId, setActiveId] = useState(null)
   const [activeType, setActiveType] = useState(null)
   const [activeData, setActiveData] = useState(null)
-  const [originalDraggingCardColumn, setOriginalDraggingCardColumn] =
-    useState(null)
+  const [originalDraggingCardColumn, setOriginalDraggingCardColumn] = useState(null)
+  const moveColumn = useContext(BoardIdContext).moveColumn
 
   const lastOverId = useRef(null)
 
@@ -220,6 +221,7 @@ function BoardContent({ board }) {
           activeColumnIndex,
           overColumnIndex
         )
+        moveColumn(dndOrderedColumns)
         setOrderedColumns(dndOrderedColumns)
       }
     }
@@ -233,7 +235,8 @@ function BoardContent({ board }) {
     sideEffects: defaultDropAnimationSideEffects({
       styles: {
         active: {
-          opacity: '0.5'
+          opacity: '0.5',
+          transition: 'transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease'
         }
       }
     })

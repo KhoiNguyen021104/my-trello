@@ -6,19 +6,20 @@ import {
 } from '@dnd-kit/sortable'
 import { Button, TextField } from '@mui/material'
 import { Bounce, toast } from 'react-toastify'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
+import { BoardIdContext } from '~/pages/Boards/_id'
 
 
-function ListCards({ cards, openNewCardForm, setOpenNewCardForm }) {
+function ListCards({ cards, openNewCardForm, setOpenNewCardForm, columnId }) {
   // Add new card
   const [newCardTitle, setNewCardTitle] = useState('')
-
+  const createNewCard = useContext(BoardIdContext).createNewCard
   const toggleNewCardForm = () => {
     setOpenNewCardForm(!openNewCardForm)
     setNewCardTitle('')
   }
-  const handleAddNewCard = () => {
+  const handleAddNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter list title',
         {
@@ -36,6 +37,10 @@ function ListCards({ cards, openNewCardForm, setOpenNewCardForm }) {
       return
     }
     // Call API
+    await createNewCard( {
+      title: newCardTitle,
+      columnId: columnId
+    })
     toggleNewCardForm()
     toast.success('Add new card successfully',
       {
@@ -98,7 +103,7 @@ function ListCards({ cards, openNewCardForm, setOpenNewCardForm }) {
             borderRadius: '8px',
             marginTop: '4px',
             paddingBottom: '16px',
-            pt: cards[0].FE_PlaceholderCard ? '12px' : 0
+            pt: cards[0]?.FE_PlaceholderCard ? '12px' : 0
           }}
           data-no-dnd='true'>
           <TextField

@@ -6,26 +6,27 @@ import {
   SortableContext,
   horizontalListSortingStrategy
 } from '@dnd-kit/sortable'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import { Bounce, toast } from 'react-toastify'
+import { BoardIdContext } from '../../_id'
 
 function ListColumns({ columns }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const [newColumnTitle, setNewColumnTitle] = useState('')
+  const createNewColumn = useContext(BoardIdContext).createNewColumn
 
   const toggleNewColumnForm = () => {
     setOpenNewColumnForm(!openNewColumnForm)
     setNewColumnTitle('')
   }
-  const handleAddNewList = () => {
+  const handleAddNewList = async () => {
     if (!newColumnTitle) {
-      // alert('Please enter list title')
       toast.error('Please enter list title',
         {
           position: 'top-center',
-          autoClose: 5000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -37,12 +38,15 @@ function ListColumns({ columns }) {
       )
       return
     }
-    // Call API
+    // Call API => Create new Column
+    await createNewColumn({
+      title: newColumnTitle
+    })
     toggleNewColumnForm()
     toast.success('Add new column successfully',
       {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

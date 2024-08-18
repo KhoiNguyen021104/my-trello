@@ -211,6 +211,7 @@ function Column({ column }) {
         </Box>
         {/* List cards */}
         <ListCards
+          columnId={column._id}
           cards={orderedCards}
           openNewCardForm={openNewCardForm}
           setOpenNewCardForm={setOpenNewCardForm}
