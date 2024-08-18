@@ -22,7 +22,6 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import { ReactComponent as CreateTemplateCardIcon } from '~/assets/createTemplateCard.svg'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
@@ -78,7 +77,7 @@ function Column({ column }) {
     }
   }, [])
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  const orderedCards = column.cards
   // Drag n Drop
   const {
     attributes,
