@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
-import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
   DragOverlay,
@@ -21,7 +20,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState } f
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './ListColumns/Column/Column'
 import TrelloCard from './ListColumns/Column/ListCards/Card/TrelloCard'
-import { cloneDeep, isEmpty, transform } from 'lodash'
+import { cloneDeep, isEmpty } from 'lodash'
 import { createPlaceholderCard } from '~/utils/formatters'
 import { BoardIdContext } from '../_id'
 
@@ -47,11 +46,14 @@ function BoardContent({ board }) {
   const [activeData, setActiveData] = useState(null)
   const [originalDraggingCardColumn, setOriginalDraggingCardColumn] = useState(null)
   const moveColumn = useContext(BoardIdContext).moveColumn
+  const moveCardInSameColumn = useContext(BoardIdContext).moveCardInSameColumn
+  const moveCardDifferentColumn = useContext(BoardIdContext).moveCardDifferentColumn
 
   const lastOverId = useRef(null)
 
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    // column đã đc sort ở _id.jsx
+    setOrderedColumns(board?.columns)
   }, [board])
 
   const findColumn = (cardId) => {
@@ -61,13 +63,15 @@ function BoardContent({ board }) {
   }
 
   const moveCardBetweenTwoColumn = (
+    // k thay đổi thứ tự
     overCardId,
     over,
     active,
     overColumn,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom = ''
   ) => {
     setOrderedColumns((prevColumn) => {
       const overCardIndex = overColumn?.cards?.findIndex(
@@ -76,9 +80,10 @@ function BoardContent({ board }) {
       let newCardIndex
       const isBelowOverItem =
         over &&
-        active.rect.current.translated &&
-        active.rect.current.translated.top > over.rect.top + over.rect.height
+        active?.rect?.current?.translated &&
+        active?.rect?.current?.translated?.top > over?.rect?.top + over?.rect.height
       const modifier = isBelowOverItem ? 1 : 0
+
       newCardIndex =
         overCardIndex >= 0
           ? overCardIndex + modifier
@@ -111,6 +116,7 @@ function BoardContent({ board }) {
           ...activeDraggingCardData,
           columnId: nextOverColumn._id
         }
+        delete rebuild_activeDraggingCardData.sortable
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(
           newCardIndex,
           0,
@@ -123,7 +129,15 @@ function BoardContent({ board }) {
           (card) => card._id
         )
       }
-
+      // nếu func đc gọi từ handleDragEnd => call API
+      if (triggerFrom === 'handleDragEnd') {
+        moveCardDifferentColumn(
+          activeDraggingCardId,
+          originalDraggingCardColumn._id,
+          nextOverColumn._id,
+          nextColumns
+        )
+      }
       return nextColumns
     })
   }
@@ -183,29 +197,37 @@ function BoardContent({ board }) {
           overColumn,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
+        // cùng 1 column
         const activeCardIndex = originalDraggingCardColumn?.cards?.findIndex(
           (c) => c._id === activeId
         )
+        // console.log('activeCardIndex: ', activeCardIndex);
         const overCardIndex = overColumn?.cards?.findIndex(
           (c) => c._id === overCardId
         )
+        // console.log('overCardIndex: ', overCardIndex);
+
         const dndOrderedCards = arrayMove(
           originalDraggingCardColumn?.cards,
           activeCardIndex,
           overCardIndex
         )
+        // console.log('dndOrderedCards: ', dndOrderedCards);
+        const dndOrderedCardIds = dndOrderedCards.map((card) => card._id)
         setOrderedColumns((prevColumn) => {
           const nextColumns = cloneDeep(prevColumn)
           const targetColumn = nextColumns.find(
             (c) => c._id === overColumn._id
           )
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map((card) => card._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
           return nextColumns
         })
+        moveCardInSameColumn(dndOrderedCards, dndOrderedCardIds, originalDraggingCardColumn._id)
       }
     }
     if (activeType === 'column') {
@@ -221,8 +243,8 @@ function BoardContent({ board }) {
           activeColumnIndex,
           overColumnIndex
         )
-        moveColumn(dndOrderedColumns)
         setOrderedColumns(dndOrderedColumns)
+        moveColumn(dndOrderedColumns)
       }
     }
     setActiveId(null)
