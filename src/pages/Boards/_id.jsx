@@ -31,7 +31,7 @@ function Board() {
         response.columns,
         response.columnOrderIds,
         '_id'
-      ) .catch(() => {})
+      )
       // Tạo playholderCard cho column rỗng
       response.columns.forEach((column) => {
         if (isEmpty(column.cards)) {
