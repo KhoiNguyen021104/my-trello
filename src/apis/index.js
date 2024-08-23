@@ -48,3 +48,14 @@ export const createNewCardAPI = async (newCardData) => {
 }
 
 // Cards
+
+
+// Send mail invite join board
+
+export const sendMailAPI = async (sendMailData) => {
+  const response = await axios.post(`${API_ROOT}/v1/sendMail`, sendMailData)
+  return response.data
+}
+
+
+// Send mail invite join board

@@ -1,6 +1,3 @@
-/* eslint-disable quotes */
-/* eslint-disable no-console */
-// Board details
 import Container from '@mui/material/Container'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
@@ -14,6 +11,7 @@ import {
   createNewColumnAPI,
   fetchBoardDetailsAPI,
   moveCardDifferentColumnAPI,
+  sendMailAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
@@ -28,13 +26,12 @@ function Board() {
   const boardId = '66bf091ff8d0383207d508b7'
   useEffect(() => {
     // HardCode boardId = 66bf091ff8d0383207d508b7
-    // Call Api
     fetchBoardDetailsAPI(boardId).then((response) => {
       response.columns = mapOrder(
         response.columns,
         response.columnOrderIds,
         '_id'
-      )
+      ) .catch(() => {})
       // Tạo playholderCard cho column rỗng
       response.columns.forEach((column) => {
         if (isEmpty(column.cards)) {
@@ -47,6 +44,7 @@ function Board() {
       setBoard(response)
     })
   }, [])
+
   const createNewColumn = async (newColumnData) => {
     const newColumn = await createNewColumnAPI({
       ...newColumnData,
@@ -59,6 +57,7 @@ function Board() {
     newBoard.columnOrderIds.push(newColumn._id)
     setBoard(newBoard)
   }
+
   const createNewCard = async (newCardData) => {
     const newCard = await createNewCardAPI({
       ...newCardData,
@@ -79,6 +78,7 @@ function Board() {
     }
     setBoard(newBoard)
   }
+
   const moveColumn = async (dndOrderedColumns) => {
     const newColumnOrderIds = dndOrderedColumns.map((column) => column._id)
     const newBoard = {
@@ -140,6 +140,12 @@ function Board() {
     )
   }
 
+  const sendMailInviteJoinBoard = async (sendMailData) => {
+    const result = await sendMailAPI(sendMailData)
+    // console.log('🚀 ~ sendMailInviteJoinBoard ~ result:', result)
+    return isEmpty(result)
+  }
+
   if (!board) {
     return (
       <Box
@@ -165,7 +171,8 @@ function Board() {
         createNewCard,
         moveColumn,
         moveCardInSameColumn,
-        moveCardDifferentColumn
+        moveCardDifferentColumn,
+        sendMailInviteJoinBoard
       }}>
       <Container
         disableGutters

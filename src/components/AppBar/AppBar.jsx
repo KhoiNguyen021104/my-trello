@@ -116,7 +116,7 @@ function AppBar() {
           autoComplete='off'
           fullWidth
           placeholder='Search...'
-          type='  '
+          type='text'
           size='small'
           sx={{
             minWidth: 120,
