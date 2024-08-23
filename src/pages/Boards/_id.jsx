@@ -142,7 +142,6 @@ function Board() {
 
   const sendMailInviteJoinBoard = async (sendMailData) => {
     const result = await sendMailAPI(sendMailData)
-    // console.log('🚀 ~ sendMailInviteJoinBoard ~ result:', result)
     return isEmpty(result)
   }
 

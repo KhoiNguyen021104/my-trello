@@ -25,7 +25,7 @@ function ChangeVisibility({ visibility }) {
     setAnchorEl(null)
   }
   const handleChangeVisibility = (visibility) => {
-    setUiVisibility(visibility) 
+    setUiVisibility(visibility)
   }
   return (
     <Box>
