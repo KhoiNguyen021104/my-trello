@@ -83,7 +83,7 @@ function ShareBoard() {
     const to = emailInput
     setEmailInput('')
     const res = await sendMailInviteJoinBoard({
-      from: 'khoindt10a4@gmail.com',
+      from: '"Trello"<khoindt10a4@gmail.com>',
       to: to,
       // subject => Khôi Nguyễn Văn => update user_full_name => api user
       subject: 'Khôi Nguyễn Văn đã mời bạn vào bảng Trello',

@@ -162,7 +162,6 @@ function Board() {
       </Box>
     )
   }
-
   return (
     <BoardIdContext.Provider
       value={{

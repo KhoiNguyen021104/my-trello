@@ -1,9 +1,9 @@
 import { Box, Container } from '@mui/material'
-import SidebarBoards from './SidebarBoards/SidebarBoards'
-import AppBar from '~/components/AppBar/AppBar'
 import { useSelector } from 'react-redux'
+import AppBar from '~/components/AppBar/AppBar'
+import SidebarBoards from '../Boards/SidebarBoards/SidebarBoards'
 
-function Boards() {
+function Dashboard() {
   let DashboardPageContent = useSelector(state => state.dashboardPageContentReducer)
 
   return <Container
@@ -26,4 +26,4 @@ function Boards() {
   </Container>
 }
 
-export default Boards
+export default Dashboard

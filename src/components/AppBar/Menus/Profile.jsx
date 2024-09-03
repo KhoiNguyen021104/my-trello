@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip'
 import PersonAdd from '@mui/icons-material/PersonAdd'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
+import { useNavigate } from 'react-router-dom'
 
 function Profile() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -20,6 +21,12 @@ function Profile() {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    navigate('/')
+  }
+
   return (
     <React.Fragment>
       <Box>
@@ -93,10 +100,14 @@ function Profile() {
           Settings
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize='small' />
-          </ListItemIcon>
-          Logout
+          <Box sx={{ display: 'flex', alignItems:'center' }}
+            onClick={handleLogout}
+          >
+            <ListItemIcon>
+              <Logout fontSize='small' />
+            </ListItemIcon>
+            Logout
+          </Box>
         </MenuItem>
       </Menu>
     </React.Fragment>
