@@ -57,5 +57,27 @@ export const sendMailAPI = async (sendMailData) => {
   return response.data
 }
 
-
 // Send mail invite join board
+
+
+// Register
+
+export const createNewUserAPI = async (createData) => {
+  const response = await axios.post(`${API_ROOT}/v1/register`, createData)
+  return response.data
+}
+
+// Verify OTP
+export const verifyOtpAPI = async (verifyData) => {
+  const response = await axios.post(`${API_ROOT}/v1/verify-otp`, verifyData)
+  return response.data
+}
+
+// FinalizeStepRegister
+export const finalizeStepRegisterAPI = async (updateData) => {
+  const response = await axios.post(`${API_ROOT}/v1/finalizeStepRegister`, updateData)
+  return response.data
+}
+
+
+// Register
