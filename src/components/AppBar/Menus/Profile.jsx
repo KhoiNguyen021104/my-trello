@@ -11,6 +11,8 @@ import PersonAdd from '@mui/icons-material/PersonAdd'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import { useNavigate } from 'react-router-dom'
+import { handleLogoutAPI } from '~/apis'
+import { toast } from 'react-toastify'
 
 function Profile() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -23,7 +25,10 @@ function Profile() {
   }
 
   const navigate = useNavigate()
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const resLogout = await handleLogoutAPI()
+    localStorage.removeItem('userInfo')
+    toast.success(resLogout.message)
     navigate('/')
   }
 

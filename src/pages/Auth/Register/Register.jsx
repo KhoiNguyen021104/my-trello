@@ -77,7 +77,7 @@ function Register() {
     localStorage.setItem('userInfo', JSON.stringify(userInfo))
     const jsonString = JSON.stringify(userInfo)
     const encodedString = btoa(jsonString)
-    window.location.href= `/verifyAccount?${encodeURIComponent(encodedString)}`
+    window.location.href= `/verifyAccount/${encodeURIComponent(encodedString)}`
   }
 
   return (

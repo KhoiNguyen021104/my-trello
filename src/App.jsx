@@ -12,19 +12,35 @@ function App() {
     if (!userInfo) return <Navigate to="/" replace={true} />
     return <Outlet/>
   }
+
+  const ProtectedRoutes = () => {
+    const user = JSON.parse(localStorage.getItem('userInfo'))
+    if (!user) return <Navigate to="/" replace={true} />
+    return <Outlet/>
+  }
+  const UnauthorizedRoutes = () => {
+    const user = JSON.parse(localStorage.getItem('userInfo'))
+    if (user) return <Navigate to="/dashboard" replace={true} />
+    return <Outlet/>
+  }
   return <>
     <Routes>
       <Route path='/' element={
         <Navigate to="/login" replace={true} />
       } />
       <Route element={<PrivateRegisterRoute/>}>
-        <Route path="/verifyAccount" element={<VerifyOTP />} />
-        <Route path="/finalizeStepRegister" element={<FinalizeStepRegister />} />
+        <Route path="/verifyAccount/:data" element={<VerifyOTP />} />
+        <Route path="/finalizeStepRegister/:data" element={<FinalizeStepRegister />} />
       </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/board" element={<Board />} />
+      <Route element={<UnauthorizedRoutes />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
+
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/dashboard/:_id" element={<Dashboard />} />
+        <Route path="/board" element={<Board />} />
+      </Route>
     </Routes>
   </>
 }

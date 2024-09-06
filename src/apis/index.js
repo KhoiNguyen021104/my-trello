@@ -1,5 +1,6 @@
 // Apis
 import axios from 'axios'
+import authorizedAxiosInstance from '~/utils/authorizeAxios'
 import { API_ROOT } from '~/utils/constants'
 
 // Board
@@ -79,5 +80,31 @@ export const finalizeStepRegisterAPI = async (updateData) => {
   return response.data
 }
 
-
 // Register
+
+// Login
+
+export const handleLoginAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/login`, data)
+  return response.data
+}
+
+// Login
+
+// Logout
+
+export const handleLogoutAPI = async () => {
+  const response = await authorizedAxiosInstance.delete(`${API_ROOT}/v1/users/logout`)
+  return response.data
+}
+
+// Logout
+
+// Refresh token
+
+export const handleRefreshTokenAPI = async (refreshToken) => {
+  return await authorizedAxiosInstance.put(`${API_ROOT}/v1/users/refresh_token`, { refreshToken })
+}
+
+// Refresh token
+
