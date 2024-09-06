@@ -1,3 +1,5 @@
+import { Bounce, toast } from 'react-toastify'
+
 export const capitalizeFirstLetter = (val) => {
   if (!val) return ''
   return `${val?.charAt(0)?.toUpperCase()}${val?.slice(1)}`
@@ -440,10 +442,33 @@ export const createHtmlOTPVerifyEmail = (data) => {
   `
 }
 
+// export const paramsDecodeUrlBase64 = () => {
+//   const urlParams = window.location.search.substring(1)
+//   const base64String = decodeURIComponent(urlParams)
+//   const jsonString = atob(base64String)
+//   const objParams = JSON.parse(jsonString)
+//   return objParams
+// }
+
 export const paramsDecodeUrlBase64 = () => {
-  const urlParams = window.location.search.substring(1)
+  const urlParams = window.location.href.split('/').pop()
   const base64String = decodeURIComponent(urlParams)
   const jsonString = atob(base64String)
   const objParams = JSON.parse(jsonString)
   return objParams
+}
+
+export const toastMessage = (props) => {
+  toast[props.type](props.message,
+    {
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+      transition: Bounce
+    }
+  )
 }

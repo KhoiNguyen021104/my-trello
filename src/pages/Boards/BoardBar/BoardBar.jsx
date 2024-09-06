@@ -52,14 +52,12 @@ function BoardBar({ board }) {
         }
       }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-        <Tooltip title={board?.description.toUpperCase()} arrow>
-          <Button
-            variant='text'
-            size='small'
-            sx={{ fontSize: '1.125rem', fontWeight: 'bold', color:'white' }}>
-            {board?.title}
-          </Button>
-        </Tooltip>
+        <Button
+          variant='text'
+          size='small'
+          sx={{ fontSize: '1.125rem', fontWeight: 'bold', color:'white' }}>
+          {board?.title}
+        </Button>
         <ActiveStar />
         <ChangeVisibility visibility={ board?.type } />
         <Tooltip title='Board' arrow>

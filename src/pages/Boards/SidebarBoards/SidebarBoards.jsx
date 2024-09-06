@@ -220,7 +220,7 @@ function SidebarBoards() {
                 <ListItemText primary={item?.title} />
               </ListItemButton>
               :
-              <>
+              <Box key={index}>
                 <Divider/>
                 <Typography variant='body1'
                   sx={{
@@ -241,7 +241,7 @@ function SidebarBoards() {
                   <ListItemText primary='Trello workspaces' />
                   {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItemButton>
-              </>
+              </Box>
           )
         })}
         <Collapse in={open} timeout='auto' unmountOnExit>

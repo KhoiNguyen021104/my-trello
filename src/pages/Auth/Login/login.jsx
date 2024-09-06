@@ -9,6 +9,8 @@ import imgGG from '~/assets/imgLogin/imgGG.png'
 import imgMS from '~/assets/imgLogin/imgMS.png'
 import imgApple from '~/assets/imgLogin/imgApple.png'
 import imgSlack from '~/assets/imgLogin/imgSlack.png'
+import { handleLoginAPI } from '~/apis'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [showInput, setShowInput] = useState(false)
@@ -17,6 +19,7 @@ function Login() {
   const [errorEmailMessage, setErrorEmailMessage] = useState('')
   const [errorPasswordMessage, setErrorPasswordMessage] = useState('')
   const navigate = useNavigate()
+
   const handleOnchangeEmailInput = (value) => {
     setEmailInput(value)
     setErrorEmailMessage('')
@@ -31,7 +34,7 @@ function Login() {
     setErrorPasswordMessage('')
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (emailInput === '') {
       setErrorEmailMessage('Please enter email address.')
       setShowInput(false)
@@ -50,7 +53,14 @@ function Login() {
     }
 
     if (showInput && passwordInput !== '') {
-      navigate('/board')
+      const resLogin = await handleLoginAPI({ email: emailInput, password: passwordInput })
+      const userInfo = {
+        _id: resLogin._id,
+        email: resLogin.email
+      }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      toast.success('Login successful')
+      navigate(`/dashboard/${encodeURIComponent(btoa(JSON.stringify(userInfo._id)))}`)
     }
   }
 

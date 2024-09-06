@@ -185,7 +185,7 @@ function VerifyOTP() {
         autoClose: 2500,
         onClose: () => {
           if (resVerify.type === 'success') {
-            window.location.href = `/finalizeStepRegister?${encodeURIComponent(btoa(JSON.stringify(userInfo)))}`
+            window.location.href = `/finalizeStepRegister/${encodeURIComponent(btoa(JSON.stringify(userInfo)))}`
           }
         },
         hideProgressBar: false,

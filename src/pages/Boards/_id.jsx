@@ -23,7 +23,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 export const BoardIdContext = createContext()
 function Board() {
   const [board, setBoard] = useState(null)
-  const boardId = '66bf091ff8d0383207d508b7'
+  const boardId = '66db1efc728c8e77ec4f010d'
   useEffect(() => {
     // HardCode boardId = 66bf091ff8d0383207d508b7
     fetchBoardDetailsAPI(boardId).then((response) => {
@@ -124,9 +124,6 @@ function Board() {
       columnOrderIds: newColumnOrderIds
     }
     setBoard(newBoard)
-    // Call API
-    // khi kéo card cuối cùng ra khỏi col => col còn 1 card là placeholder-card
-    // cần xóa đi sau đó mới update lại board
     let prevCardOrderIds = dndOrderedColumns.find(column => column._id === prevColumnId)?.cardOrderIds
     if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
     moveCardDifferentColumnAPI(
