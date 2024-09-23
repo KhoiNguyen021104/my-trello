@@ -4,13 +4,22 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined'
 import StarIcon from '@mui/icons-material/Star'
 import { Box } from '@mui/material'
 import { useState } from 'react'
+import { updateBoardDetailsAPI } from '~/apis'
+import { toast } from 'react-toastify'
 
-function ActiveStar() {
-  const [active, setActive] = useState(false)
-  const handleActiveStar = () => {
+function ActiveStar({ board }) {
+  const [active, setActive] = useState(board.starred)
+  const handleActiveStar = async () => {
+    const userId = JSON.parse(localStorage.getItem('userInfo'))._id
+    if (userId !== board.userId) {
+      toast.info('You do not have the authority!')
+      return
+    }
     setActive(!active)
+    await updateBoardDetailsAPI(board._id, {
+      starred: !active
+    })
   }
-  // Call API update field_star board_collection
   return (
     <Box>
       <Tooltip title='Star' arrow>

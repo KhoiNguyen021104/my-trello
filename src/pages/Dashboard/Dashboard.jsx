@@ -24,22 +24,25 @@ function Dashboard() {
     }
     handleFetchUserAPI()
   }, [])
+
   return <Container
     disableGutters
     maxWidth={false}
     sx={{
       height: '100vh',
-      maxHeight: '100vh'
+      maxHeight: '100vh',
+      overflow: 'auto',
+      pt: (theme) => theme.app.APP_BAR_HEIGHT
     }}>
     <AppBar />
     <Box sx={{
       display: 'flex',
       justifyContent: 'center',
       gap: 2,
-      mt: '32px'
+      mt: 3
     }}>
       <SidebarBoards/>
-      <DashboardPageContent userInfo={userInfo}/>
+      <DashboardPageContent userId={userInfo?._id}/>
     </Box>
   </Container>
 }

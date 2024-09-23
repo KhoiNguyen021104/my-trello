@@ -2,7 +2,7 @@ import Container from '@mui/material/Container'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 // import Sidebar from './Sidebar/Sidebar'
 // import { mockData } from '~/apis/mock-data'
 import { createContext, useEffect, useState } from 'react'
@@ -15,24 +15,23 @@ import {
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
-import { createPlaceholderCard } from '~/utils/formatters'
-import { isEmpty } from 'lodash'
+import { createPlaceholderCard, paramsDecodeUrlBase64 } from '~/utils/formatters'
+import { cloneDeep, isEmpty } from 'lodash'
 import { mapOrder } from '~/utils/sorts'
-import CircularProgress from '@mui/material/CircularProgress'
+import Loading from '~/components/Loading'
+import socket from '~/components/Socket/socket'
 
 export const BoardIdContext = createContext()
 function Board() {
   const [board, setBoard] = useState(null)
-  const boardId = '66db1efc728c8e77ec4f010d'
+  const boardId = paramsDecodeUrlBase64()
   useEffect(() => {
-    // HardCode boardId = 66bf091ff8d0383207d508b7
     fetchBoardDetailsAPI(boardId).then((response) => {
       response.columns = mapOrder(
         response.columns,
         response.columnOrderIds,
         '_id'
       )
-      // Tạo playholderCard cho column rỗng
       response.columns.forEach((column) => {
         if (isEmpty(column.cards)) {
           column.cards = [createPlaceholderCard(column)]
@@ -43,7 +42,7 @@ function Board() {
       })
       setBoard(response)
     })
-  }, [])
+  }, [boardId])
 
   const createNewColumn = async (newColumnData) => {
     const newColumn = await createNewColumnAPI({
@@ -57,6 +56,7 @@ function Board() {
     newBoard.columnOrderIds.push(newColumn._id)
     setBoard(newBoard)
   }
+
 
   const createNewCard = async (newCardData) => {
     const newCard = await createNewCardAPI({
@@ -142,22 +142,24 @@ function Board() {
     return isEmpty(result)
   }
 
+  useEffect(() => {
+    if (!board) return
+    const socketBoard = cloneDeep(board)
+    socketBoard.ownerIds = (socketBoard.ownerIds).filter(ownerId => ownerId !== socketBoard.userId)
+    socketBoard.memberIds = (socketBoard.memberIds).filter(memberId => memberId !== socketBoard.userId)
+    socket.emit('sendNewBoard', socketBoard)
+    const handleReceiveNewBoard = (data) => {
+      setBoard(data)
+    }
+    socket.on('receiveNewBoard', handleReceiveNewBoard)
+
+    return () => {
+      socket.off('receiveNewBoard', handleReceiveNewBoard)
+    }
+  }, [board])
+
   if (!board) {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          width: '100vw',
-          height: '100vh',
-          overflow: 'hidden',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 1
-        }}>
-        <CircularProgress color='success' />
-        <Typography>Loading board... </Typography>
-      </Box>
-    )
+    return <Loading/>
   }
   return (
     <BoardIdContext.Provider
@@ -181,8 +183,9 @@ function Board() {
         <Box
           sx={{
             display: 'flex',
-            height: (theme) => `calc(100vh - ${theme.app.APP_BAR_HEIGHT})`,
-            overflow: 'hidden'
+            // height: (theme) => `calc(100vh - ${theme.app.APP_BAR_HEIGHT})`,
+            overflow: 'hidden',
+            pt: (theme) => theme.app.APP_BAR_HEIGHT
           }}>
           {/* <Sidebar /> */}
           <Box sx={{ flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>

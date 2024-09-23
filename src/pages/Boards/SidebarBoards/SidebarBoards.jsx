@@ -203,6 +203,8 @@ function SidebarBoards() {
         width: '100%',
         maxWidth: 288,
         bgcolor: 'white'
+        // position: 'fixed',
+        // left: 0
       }}>
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'white' }}

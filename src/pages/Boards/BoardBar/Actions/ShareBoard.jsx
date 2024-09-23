@@ -13,9 +13,8 @@ import {
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined'
-// import { ContentCopy, ContentCut } from '@mui/icons-material'
 import { Link as MuiLink } from '@mui/material'
 import Tab from '@mui/material/Tab'
 import Avatar from '@mui/material/Avatar'
@@ -23,17 +22,17 @@ import Avatar from '@mui/material/Avatar'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import { BoardIdContext } from '../../_id'
 import { Bounce, toast } from 'react-toastify'
-import { createHtmlShareBoard } from '~/utils/formatters'
+import { createNewInvitationAPI, findOneUserByEmail } from '~/apis'
+import socket from '~/components/Socket/socket'
 
-function ShareBoard() {
+
+function ShareBoard({ board }) {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
   const searchRef = useRef()
-  // const [searchInput, setSearchInput] = useState('')
   const [emailInput, setEmailInput] = useState('')
 
   const modelRef = useRef()
@@ -74,37 +73,40 @@ function ShareBoard() {
   }
 
   // Send Mail
-  const sendMailInviteJoinBoard = useContext(BoardIdContext).sendMailInviteJoinBoard
-  const html = createHtmlShareBoard({
-    name: 'Nguyễn Văn Khôi',
-    href: 'http://localhost:5173/'
-  })
+  // const sendMailInviteJoinBoard = useContext(BoardIdContext).sendMailInviteJoinBoard
+  // const html = createHtmlShareBoard({
+  //   name: 'Nguyễn Văn Khôi',
+  //   href: 'http://localhost:5173/'
+  // })
   const handleShareBoard = async () => {
     const to = emailInput
-    setEmailInput('')
-    const res = await sendMailInviteJoinBoard({
-      from: '"Trello"<khoindt10a4@gmail.com>',
-      to: to,
-      // subject => Khôi Nguyễn Văn => update user_full_name => api user
-      subject: 'Khôi Nguyễn Văn đã mời bạn vào bảng Trello',
-      html: html
-    })
-    if (res) {
-      toast.error('Please enter email address!',
-        {
-          position: 'top-center',
-          autoClose: 2500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'colored',
-          transition: Bounce
-        }
-      )
+    if (to === JSON.parse(localStorage.getItem('userInfo')).email) {
+      toast.info('You cannot invite yourself to the board')
       return
     }
+    setEmailInput('')
+    const toUser = await findOneUserByEmail({
+      email: to
+    })
+
+    const exist = board?.memberIds?.some(id => id === toUser._id)
+    if (exist) {
+      toast.info('This user is already a member of the board')
+      return
+    }
+    const dataInvite = {
+      fromUserId: board.userId,
+      toUserId: toUser._id,
+      boardId: board._id
+    }
+
+    const resCreated = await createNewInvitationAPI(dataInvite)
+    if (!resCreated) {
+      toast.info(`You invited ${dataInvite.toUserId} to join board this board`)
+      return
+    }
+    dataInvite._id = resCreated._id
+    socket.emit('sendInvite', dataInvite)
     toast.success('Invite successfully',
       {
         position: 'top-center',

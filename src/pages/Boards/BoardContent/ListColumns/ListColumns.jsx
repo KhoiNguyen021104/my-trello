@@ -38,7 +38,6 @@ function ListColumns({ columns }) {
       )
       return
     }
-    // Call API => Create new Column
     await createNewColumn({
       title: newColumnTitle
     })
@@ -109,7 +108,7 @@ function ListColumns({ columns }) {
                   fontWeight: 'bold'
                 }}
                 startIcon={<AddOutlinedIcon />}>
-              Add another list
+                Add another list
               </Button>
             </Box>
             :

@@ -6,6 +6,7 @@ import Board from './pages/Boards/_id'
 import VerifyOTP from './pages/Auth/Register/VerifyOtp'
 import FinalizeStepRegister from './pages/Auth/Register/FinalizeStepRegister'
 
+
 function App() {
   const PrivateRegisterRoute = () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'))
@@ -20,9 +21,10 @@ function App() {
   }
   const UnauthorizedRoutes = () => {
     const user = JSON.parse(localStorage.getItem('userInfo'))
-    if (user) return <Navigate to="/dashboard" replace={true} />
+    if (user) return <Navigate to={`/dashboard/${encodeURIComponent(btoa(JSON.stringify(user._id)))}`}replace={true} />
     return <Outlet/>
   }
+
   return <>
     <Routes>
       <Route path='/' element={
@@ -39,7 +41,7 @@ function App() {
 
       <Route element={<ProtectedRoutes />}>
         <Route path="/dashboard/:_id" element={<Dashboard />} />
-        <Route path="/board" element={<Board />} />
+        <Route path="/board/:_id" element={<Board />} />
       </Route>
     </Routes>
   </>

@@ -1,7 +1,9 @@
-export const notificationReducer = (state = 'false', action) => {
+export const notificationReducer = (state = {}, action) => {
+  if (action.type !== 'NOTIFICATION') return state
+
   switch (action.type) {
   case 'NOTIFICATION':
-    return action.payload
+    return { ...action.payload }
   default:
     return state
   }

@@ -450,6 +450,8 @@ export const createHtmlOTPVerifyEmail = (data) => {
 //   return objParams
 // }
 
+
+
 export const paramsDecodeUrlBase64 = () => {
   const urlParams = window.location.href.split('/').pop()
   const base64String = decodeURIComponent(urlParams)
