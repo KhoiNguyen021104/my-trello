@@ -12,14 +12,13 @@ import Templates from './Menus/Templates'
 import Create from './Menus/Create'
 import Profile from './Menus/Profile'
 import TextField from '@mui/material/TextField'
-import Badge from '@mui/material/Badge'
-import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined'
 import Tooltip from '@mui/material/Tooltip'
 import SearchIcon from '@mui/icons-material/Search'
 import InputAdornment from '@mui/material/InputAdornment'
 import CloseIcon from '@mui/icons-material/Close'
 import { useEffect, useRef, useState } from 'react'
+import Notification from './Menus/Notification'
 
 function AppBar() {
   const searchRef = useRef()
@@ -54,6 +53,10 @@ function AppBar() {
   return (
     <Box
       sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        zIndex: 10000,
         width: '100%',
         height: (theme) => theme.app.APP_BAR_HEIGHT,
         display: 'flex',
@@ -74,10 +77,14 @@ function AppBar() {
           }}>
           <AppsOutlinedIcon sx={{ color: 'white' }} />
           <Box
+            onClick={() => {
+              history.back()
+            }}
             sx={{
               display: 'flex',
               gap: 0.5,
-              alignItems: 'center'
+              alignItems: 'center',
+              cursor: 'pointer'
             }}>
             <SvgIcon
               component={TrelloIcon}
@@ -152,14 +159,14 @@ function AppBar() {
           }}
         />
         <ModeSelect sx={{ cursor: 'pointer' }} />
-        <Tooltip arrow title='Notification'>
+        {/* <Tooltip arrow title='Notification'>
           <Badge color='secondary' variant='dot' sx={{ cursor: 'pointer' }}>
             <NotificationsNoneOutlinedIcon
               sx={{ color: 'white' }}
             />
           </Badge>
-        </Tooltip>
-        {/* <Notification/> */}
+        </Tooltip> */}
+        <Notification/>
         <Tooltip arrow title='Help'>
           <HelpOutlineOutlinedIcon
             sx={{ cursor: 'pointer', color: 'white' }}

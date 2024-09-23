@@ -5,23 +5,36 @@ import { API_ROOT } from '~/utils/constants'
 
 // Board
 
+export const createBoardAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/boards`, data)
+  return response.data
+}
+
+export const fetchBoardListAPI = async (userId) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/boards/getBoardList/${userId}`)
+  return response.data
+}
+
 export const fetchBoardDetailsAPI = async (boardId) => {
   const response = await axios.get(`${API_ROOT}/v1/boards/${boardId}`)
-  // response => object => kết quả trong data của response
   return response.data
 }
 
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await axios.put(`${API_ROOT}/v1/boards/${boardId}`, updateData)
-  // response => object => kết quả trong data của response
   return response.data
 }
 
 export const moveCardDifferentColumnAPI = async (updateData) => {
-  // console.log('updateData: ', updateData);
   const response = await axios.put(`${API_ROOT}/v1/boards/supports/moving_card`, updateData)
   return response.data
 }
+
+export const deleteBoardAPI = async (boardId) => {
+  const response = await authorizedAxiosInstance.delete(`${API_ROOT}/v1/boards/${boardId}`)
+  return response.data
+}
+
 // Board
 
 
@@ -108,3 +121,37 @@ export const handleRefreshTokenAPI = async (refreshToken) => {
 
 // Refresh token
 
+
+// Users
+
+export const findOneUserByEmail = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/users/getUser`, data)
+  return response.data
+}
+
+export const findOneUserByIdAPI = async (_id) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/users/getUser/${_id}`)
+  return response.data
+}
+
+// Users
+
+
+// Invitations
+
+export const createNewInvitationAPI = async (data) => {
+  const response = await authorizedAxiosInstance.post(`${API_ROOT}/v1/invitations`, data)
+  return response.data
+}
+
+export const fetchInvitationsListAPI = async (toUserId) => {
+  const response = await authorizedAxiosInstance.get(`${API_ROOT}/v1/invitations/${toUserId}`)
+  return response.data
+}
+
+export const replyInvitation = async (_id, data) => {
+  const response = await authorizedAxiosInstance.put(`${API_ROOT}/v1/invitations/${_id}`, data)
+  return response.data
+}
+
+// Invitations

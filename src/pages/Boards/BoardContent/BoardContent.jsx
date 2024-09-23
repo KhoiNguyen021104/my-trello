@@ -63,7 +63,6 @@ function BoardContent({ board }) {
   }
 
   const moveCardBetweenTwoColumn = (
-    // k thay đổi thứ tự
     overCardId,
     over,
     active,
@@ -129,7 +128,6 @@ function BoardContent({ board }) {
           (card) => card._id
         )
       }
-      // nếu func đc gọi từ handleDragEnd => call API
       if (triggerFrom === 'handleDragEnd') {
         moveCardDifferentColumn(
           activeDraggingCardId,
@@ -143,7 +141,6 @@ function BoardContent({ board }) {
   }
 
   const handleDragStart = (event) => {
-    // console.log('Start: ', event)
     setActiveId(event?.active?.id)
     setActiveType(event?.active?.data?.current?.columnId ? 'card' : 'column')
     setActiveData(event?.active?.data?.current)

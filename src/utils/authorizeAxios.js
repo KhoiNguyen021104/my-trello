@@ -36,9 +36,8 @@ authorizedAxiosInstance.interceptors.response.use(
     }
 
     // Nêu BE return mã 410 => refresh token
-    // Đầu tiên phải lấy các request API đang bị lỗi thông qua error.config
+    // Lấy các request API đang bị lỗi thông qua error.config
     const originalRequest = error.config // Các request API bị lỗi
-    // console.log('🚀 ~ originalRequest:', originalRequest)
     if (error.response?.status === 410 && !originalRequest._retry) {
       // Gán thêm giá trị _retry = true => để refresh token chỉ diễn ra 1 lần tại 1 thời điểm
       originalRequest._retry = true
@@ -60,6 +59,7 @@ authorizedAxiosInstance.interceptors.response.use(
 
     if (error.response?.status !== 410) {
       toast.error(error.response?.data?.message || error?.message)
+      // toast.error(error.response?.data?.message)
     }
     return Promise.reject(error)
   }

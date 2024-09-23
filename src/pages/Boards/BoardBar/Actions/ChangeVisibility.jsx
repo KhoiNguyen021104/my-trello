@@ -13,19 +13,29 @@ import {
   MenuItem,
   Typography
 } from '@mui/material'
+import { updateBoardDetailsAPI } from '~/apis'
+import { toast } from 'react-toastify'
 
-function ChangeVisibility({ visibility }) {
-  const [uiVisibility, setUiVisibility] = useState(visibility)
+function ChangeVisibility({ board }) {
+  const [uiVisibility, setUiVisibility] = useState(board.type)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
+    const userId = JSON.parse(localStorage.getItem('userInfo'))._id
+    if (userId !== board.userId) {
+      toast.info('You do not have the authority!')
+      return
+    }
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
     setAnchorEl(null)
   }
-  const handleChangeVisibility = (visibility) => {
+  const handleChangeVisibility = async (visibility) => {
     setUiVisibility(visibility)
+    await updateBoardDetailsAPI(board._id, {
+      type: visibility
+    })
   }
   return (
     <Box>

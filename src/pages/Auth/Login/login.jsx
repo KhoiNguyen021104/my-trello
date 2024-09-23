@@ -11,6 +11,8 @@ import imgApple from '~/assets/imgLogin/imgApple.png'
 import imgSlack from '~/assets/imgLogin/imgSlack.png'
 import { handleLoginAPI } from '~/apis'
 import { toast } from 'react-toastify'
+import socket from '~/components/Socket/socket'
+
 
 function Login() {
   const [showInput, setShowInput] = useState(false)
@@ -59,7 +61,11 @@ function Login() {
         email: resLogin.email
       }
       localStorage.setItem('userInfo', JSON.stringify(userInfo))
-      toast.success('Login successful')
+      const user = JSON.parse(localStorage.getItem('userInfo'))
+      socket.emit('registerUser', user._id)
+      toast.success('Login successful', {
+        position: 'top-left'
+      })
       navigate(`/dashboard/${encodeURIComponent(btoa(JSON.stringify(userInfo._id)))}`)
     }
   }

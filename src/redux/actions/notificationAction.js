@@ -1,6 +1,6 @@
-export const changeStatusNotify = (payload) => {
+export const notificationAction = (payload) => {
   return {
-    payload: payload,
-    type: 'NOTIFICATION'
+    type: 'NOTIFICATION',
+    payload: payload
   }
 }
